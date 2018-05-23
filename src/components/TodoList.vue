@@ -10,11 +10,16 @@
           <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)"
            @keyup.esc="cancelEdit(todo)" v-focus>
         </div>
+           <select v-model="todo.priority" class="selectpicker">
+                <option>Low</option>
+                <option>Normal</option>
+                <option>High</option>
+            </select>
       <div class="remove-item" v-on:click="removeItem(index)"> 
         &times;
       </div>    
     </div>   
-</div>
+  </div>
 </template>
 <script>
 export default {
@@ -29,23 +34,30 @@ export default {
         'title': 'Add todo',
         'completed': false,
         'editing':false,
+        'prirority':'Normal'
       }, {
         'id':2,
         'title': 'Delete todo',
         'completed': false,
-        'editing':false,   
+        'editing':false, 
+        'prirority':'Normal'
+  
         }, 
         {
         'id':3,
         'title': 'Edit todo',
         'completed': false,
-        'editing':false,   
+        'editing':false,
+        'prirority':'Normal'
+   
       }, 
       {
         'id':4,
         'title': 'Check todo',
         'completed': false,
         'editing':false,
+        'prirority':'Normal'
+
       }],
     }
   },
