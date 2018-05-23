@@ -1,18 +1,18 @@
 <template>
    <div class="todo-list">
      <input type="text" class="todo-input" placeholder="What needs to be done?" @keyup.enter="addTodo" v-model="newTodo">
-       <button v-on:click="addTodo">Add</button>
+       <button class="primary-lg" v-on:click="addTodo">Add</button>
     <div class="todo-item" v-for="(todo, index) in todos" :key="todo.id">
-        <div class="todo-item-left">
-          <div class="todo-item-label" v-if="!todo.editing" @dblclick="editTodo(todo)">
+          <input type="checkbox" v-model="todo.completed">
+           <div class="todo-item-left">
+          <div class="todo-item-label" v-if="!todo.editing" :class="{ completed : todo.completed}" @dblclick="editTodo(todo)">
           {{todo.title}} </div>
           <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)"
            @keyup.esc="cancelEdit(todo)" v-focus>
         </div>
       <div class="remove-item" v-on:click="removeItem(index)"> 
         &times;
-      </div>
-     
+      </div>    
     </div>   
 </div>
 </template>
@@ -32,7 +32,7 @@ export default {
       }, {
         'id':2,
         'title': 'Delete todo',
-        'completed': true,
+        'completed': false,
         'editing':false,   
         }, 
         {
@@ -44,7 +44,7 @@ export default {
       {
         'id':4,
         'title': 'Check todo',
-        'completed': true,
+        'completed': false,
         'editing':false,
       }],
     }
@@ -98,7 +98,7 @@ export default {
 }
 
 .todo-item {
-  display: flex;
+  display:-webkit-flex;
   margin-bottom: 12px;
   align-items: center;
   justify-content: space-between;
@@ -107,6 +107,10 @@ export default {
 .remove-item {
       cursor: pointer;
 
+}
+.completed {
+  text-decoration: line-through;
+  color:grey;
 }
 
 
