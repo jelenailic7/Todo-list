@@ -6,7 +6,8 @@
         <div class="todo-item-left">
           <div class="todo-item-label" v-if="!todo.editing" @dblclick="editTodo(todo)">
           {{todo.title}} </div>
-          <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)">
+          <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)"
+           @keyup.esc="cancelEdit(todo)" v-focus>
         </div>
       <div class="remove-item" v-on:click="removeItem(index)"> 
         &times;
@@ -19,7 +20,6 @@
 export default {
   name: 'todo-list',
 
-  // data function avails data to the template
   data() {
     return {
       newTodo: " ",
@@ -49,9 +49,15 @@ export default {
       }],
     }
   },
+  directives: {
+  focus: {
+    inserted: function (el) {
+      el.focus()
+    }
+   }
+  },
     methods: {
       addTodo() {
-
         if(this.newTodo.trim().length == 0) {
           return;
         }
@@ -62,16 +68,19 @@ export default {
        })
        this.idForTodo++
        this.newTodo=""
-
       },
-
       removeItem(index) {
         this.todos.splice(index,1);    
       },
       editTodo(todo){
+        this.beforeEditCache = todo.title;
         todo.editing = true;
       },
       doneEdit(todo) {
+        todo.editing = false;
+      },
+      cancelEdit(todo) {
+        todo.title = this.beforeEditCache;
         todo.editing = false;
       }
     }
